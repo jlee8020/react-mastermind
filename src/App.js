@@ -42,9 +42,14 @@ class App extends Component {
         
         <header className="App-header">React Mastermind</header>
         <div className="flex-h">
-          <GameBoard />
+          <GameBoard 
+            colors={colors}
+            guesses={this.state.guesses}
+          />
           <div>
-            <ColorPicker colors={colors} />
+            <ColorPicker 
+              colors={colors}
+              selColorIdx={this.state.selColorIdx} />
             <GameTimer />
             <NewGameButton />
           </div>

@@ -3,7 +3,8 @@ import GuessRow from '../GuessRow/GuessRow';
 
 const GameBoard = (props) => (
     <div className='component'>
-        GameBoard
+        GameBoard 
+
         <GuessRow />
         <GuessRow />
     </div>
