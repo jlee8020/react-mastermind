@@ -13,19 +13,38 @@ class App extends Component {
     super();
     // this.state holds all state properties for this component
     this.state = {
-      selColorIdx: 0
+      selColorIdx: 0,
+      guesses:[],
+      code: this.genCode()
+
     };
   }
+  genCode() {
+    return new Array(4).fill().map(() => Math.floor(Math.random() * colors.length));
+  }
+
   
   render() {
     return (
       <div className="App">
-            Selected color: {colors[this.state.selColorIdx]}
+            <button onClick={() => 
+                this.setState((state) => {
+                  return {
+                    selColorIdx: (state.selColorIdx + 1) % 4
+                  };
+                })
+
+              }>
+                Next Color
+              </button>
+
+                Selected color: {colors[this.state.selColorIdx]}
+        
         <header className="App-header">React Mastermind</header>
         <div className="flex-h">
           <GameBoard />
           <div>
-            <ColorPicker />
+            <ColorPicker colors={colors} />
             <GameTimer />
             <NewGameButton />
           </div>
