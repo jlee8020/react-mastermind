@@ -14,11 +14,22 @@ class App extends Component {
     // this.state holds all state properties for this component
     this.state = {
       selColorIdx: 0,
-      guesses:[],
+      guesses:[this.getNewGuess, this.getNewGuess()],
       code: this.genCode()
-
     };
   }
+
+  getNewGuess(){
+    return {
+      code: [3, 2, 1, 0],
+      // code: [null, null, null, null],
+      score:{
+        perfect: 0,
+        almost: 0
+      }
+    };
+  }
+
   genCode() {
     return new Array(4).fill().map(() => Math.floor(Math.random() * colors.length));
   }
