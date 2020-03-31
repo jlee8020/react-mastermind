@@ -20,6 +20,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
+            Selected color: {colors[this.state.selColorIdx]}
         <header className="App-header">React Mastermind</header>
         <div className="flex-h">
           <GameBoard />
