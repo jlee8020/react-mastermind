@@ -12,13 +12,17 @@ code {
     monospace;
 }
 
-.component {
+/* .component {
   border: 2px dotted red;
   margin: 4px;
   padding: 4px;
-}
+} */
 
 .flex-h {
   display: flex;
   justify-content: center;
+}
+
+button:focus, .btn:focus {
+  outline: none;
 }
