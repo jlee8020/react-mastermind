@@ -55,30 +55,97 @@ class App extends Component {
     this.setState(this.getInitialState());
   }
 
+  handleScoreClick = () => {
+  
+    // Need the index of the current guess object (last object in guesses array)
+    let currentGuessIdx = this.state.guesses.length - 1;
+
+    // Create "working" copies of the "guessed" code and the secret
+    // code so that we can modify them as we compute the number of
+    // perfect and almost without messing up the actual ones in state
+    let guessCodeCopy = [...this.state.guesses[currentGuessIdx].code];
+    let secretCodeCopy = [...this.state.code];
+
+    let perfect = 0, almost = 0;
+
+    // First pass computes number of "perfect"
+    guessCodeCopy.forEach((code, idx) => {
+      if (secretCodeCopy[idx] === code) {
+        perfect++;
+        // Ensure same choice is not matched again
+        // by updating both elements in the "working"
+        // arrays to null
+        guessCodeCopy[idx] = secretCodeCopy[idx] = null;
+      }
+    });
+
+    // Second pass computes number of "almost"
+    guessCodeCopy.forEach((code, idx) => {
+      if (code === null) return;
+      let foundIdx = secretCodeCopy.indexOf(code);
+      if (foundIdx > -1) {
+        almost++;
+        // Again, ensure same choice is not matched again
+        secretCodeCopy[foundIdx] = null;
+      }
+    });
+
+    // State must only be updated with NEW objects/arrays
+        // Always replace objects/arrays with NEW ones
+        let guessesCopy = [...this.state.guesses];
+        let guessCopy = {...guessesCopy[currentGuessIdx]};
+        let scoreCopy = {...guessCopy.score};
+    
+        // Set scores
+        scoreCopy.perfect = perfect;
+        scoreCopy.almost = almost;
+    
+        // Update the NEW guess with the NEW score object
+        guessCopy.score = scoreCopy;
+    
+        // Update the NEW guesses with the NEW guess object
+        guessesCopy[currentGuessIdx] = guessCopy;
+    
+        // Add a new guess if not a winner
+        if (perfect !== 4) guessesCopy.push(this.getNewGuess());
+    
+        // Finally, update the state with the NEW guesses array
+        this.setState({
+          guesses: guessesCopy
+        });
+      }
+
+  
   render() {
     let winTries = this.getWinTries();
     return (
       <div className="App">        
-        <header className="App-header">React Mastermind</header>
-        <div className="flex-h">
+        <header className='App-header-footer'>R E A C T &nbsp;&nbsp;&nbsp;  M A S T E R M I N D</header>
+        <div className="flex-h align-flex-end">
           <GameBoard 
             colors={colors}
             guesses={this.state.guesses}
+            handlePegClick={this.handlePegClick}
+            handleScoreClick={this.handleScoreClick}
           />
-          <div>
+          <div className='App-controls'>
             <ColorPicker 
               colors={colors}
               selColorIdx={this.state.selColorIdx} 
               handleColorSelection={this.handleColorSelection}
               />
             <GameTimer />
-            <NewGameButton />
+            <NewGameButton 
+            handleNewGameClick={this.handleNewGameClick}
+            />
           </div>
         </div>
-        <footer>{(winTries ? `You Won in ${winTries} Guesses!` : 'Good Luck!')}</footer>
+        <footer className='App-header-footer'>
+        {(winTries ? `You Won in ${winTries} Guesses!` 
+        : 'Good Luck!')}
+        </footer>
       </div>
     );
-
   }
 }
 
