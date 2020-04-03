@@ -18,6 +18,14 @@ class App extends Component {
       code: this.genCode()
     };
   }
+   
+  getInitialState() {
+    return {
+      selColorIdx: 0,
+      guesses: [this.getNewGuess()],
+      code: this.genCode()
+    };
+  }
 
   getNewGuess(){
     return {
@@ -43,6 +51,9 @@ class App extends Component {
     this.setState({selColorIdx: colorIdx});
   };
 
+  handleNewGameClick = () => {
+    this.setState(this.getInitialState());
+  }
 
   render() {
     let winTries = this.getWinTries();
