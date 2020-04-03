@@ -55,6 +55,30 @@ class App extends Component {
     this.setState(this.getInitialState());
   }
 
+  handlePegClick = (pegIdx) => {
+    // Get index of last guess object
+    let currentGuessIdx = this.state.guesses.length - 1;
+
+    // Always replace objects/arrays with NEW ones
+    let guessesCopy = [...this.state.guesses];
+    let guessCopy = {...guessesCopy[currentGuessIdx]};
+    let codeCopy = [...guessCopy.code];
+
+    // Update the NEW code array with the currently selected color
+    codeCopy[pegIdx] = this.state.selColorIdx;
+
+    // Update the NEW guess object
+    guessCopy.code = codeCopy;
+
+    // Update the NEW guesses array
+    guessesCopy[currentGuessIdx] = guessCopy;
+
+    // Update state with the NEW guesses array
+    this.setState({
+        guesses: guessesCopy
+    });
+  }
+
   handleScoreClick = () => {
   
     // Need the index of the current guess object (last object in guesses array)
