@@ -15,7 +15,9 @@ class GameTimer extends Component {
 
   handleTick = () => {
     this.props.handleTimerUpdate();
-  }
+  };
+  
+  /*--- Lifecycle Methods ---*/
 
   componentDidMount() {
     this.timerId = setInterval(this.handleTick, 1000);
